@@ -2,7 +2,7 @@ package com.cloudbees.jenkins.plugins;
 
 import hudson.model.Job;
 import hudson.plugins.git.GitSCM;
-import hudson.plugins.git.GitStatus;
+import com.cloudbees.jenkins.plugins.GitStatus;
 import hudson.plugins.mercurial.MercurialSCM;
 import hudson.scm.SCM;
 import hudson.security.ACL;
@@ -88,6 +88,7 @@ public class BitbucketJobProbe {
         if (scm instanceof GitSCM) {
             for (RemoteConfig remoteConfig : ((GitSCM) scm).getRepositories()) {
                 for (URIish urIish : remoteConfig.getURIs()) {
+                    LOGGER.log(Level.FINEST, "Trying to match {0} ", urIish.toString() + "<-->" + url.toString());
                     if (GitStatus.looselyMatches(urIish, url)) {
                         return true;
                     }
