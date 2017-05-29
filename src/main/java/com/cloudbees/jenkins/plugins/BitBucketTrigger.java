@@ -15,6 +15,7 @@ import hudson.util.StreamTaskListener;
 import jenkins.model.ParameterizedJobMixIn;
 import jenkins.triggers.SCMTriggerItem;
 import org.apache.commons.jelly.XMLOutput;
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.File;
@@ -169,6 +170,7 @@ public class BitBucketTrigger extends Trigger<Job<?, ?>> {
     }
 
     @Extension
+    @Symbol("bitbucket")
     public static class DescriptorImpl extends TriggerDescriptor {
         private transient final SequentialExecutionQueue queue = new SequentialExecutionQueue(Hudson.MasterComputer.threadPoolForRemoting);
 

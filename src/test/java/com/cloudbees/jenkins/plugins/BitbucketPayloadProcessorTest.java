@@ -84,128 +84,61 @@ public class BitbucketPayloadProcessorTest {
         when(request.getRemoteHost()).thenReturn("https://mybitbucketserver.org");
         // https://confluence.atlassian.com/bitbucketserver/post-service-webhook-for-bitbucket-server-776640367.html
         JSONObject payload = JSONObject.fromObject("{\n" +
-                "   \"repository\":{\n" +
-                "      \"slug\":\"iridium-parent\",\n" +
-                "      \"id\":11,\n" +
-                "      \"name\":\"iridium-parent\",\n" +
-                "      \"scmId\":\"git\",\n" +
-                "      \"state\":\"AVAILABLE\",\n" +
-                "      \"statusMessage\":\"Available\",\n" +
-                "      \"forkable\":true,\n" +
-                "      \"project\":{\n" +
-                "         \"key\":\"IR\",\n" +
-                "         \"id\":21,\n" +
-                "         \"name\":\"Iridium\",\n" +
-                "         \"public\":false,\n" +
-                "         \"type\":\"NORMAL\",\n" +
-                "         \"isPersonal\":false\n" +
-                "      },\n" +
-                "      \"public\":false\n" +
-                "   },\n" +
-                "   \"refChanges\":[\n" +
+                "  \"actor\": {\n" +
+                "    \"username\": \"richard.attermeyer\",\n" +
+                "    \"displayName\": \"Richard Attermeyer\"\n" +
+                "  },\n" +
+                "  \"repository\": {\n" +
+                "    \"scmId\": \"git\",\n" +
+                "    \"project\": {\n" +
+                "      \"key\": \"BHW\",\n" +
+                "      \"name\": \"hello-world\"\n" +
+                "    },\n" +
+                "    \"slug\": \"hello-world\",\n" +
+                "    \"links\": {\n" +
+                "      \"self\": [\n" +
+                "        {\n" +
+                "          \"href\": \"https://mybitbucketserver.org/projects/BHW/repos/hello-world/browse\"\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    \"ownerName\": \"BHW\",\n" +
+                "    \"public\": false,\n" +
+                "    \"owner\": {\n" +
+                "      \"username\": \"BHW\",\n" +
+                "      \"displayName\": \"BHW\"\n" +
+                "    },\n" +
+                "    \"fullName\": \"BHW/hello-world\"\n" +
+                "  },\n" +
+                "  \"push\": {\n" +
+                "    \"changes\": [\n" +
                 "      {\n" +
-                "         \"refId\":\"refs/heads/master\",\n" +
-                "         \"fromHash\":\"2c847c4e9c2421d038fff26ba82bc859ae6ebe20\",\n" +
-                "         \"toHash\":\"f259e9032cdeb1e28d073e8a79a1fd6f9587f233\",\n" +
-                "         \"type\":\"UPDATE\"\n" +
+                "        \"created\": false,\n" +
+                "        \"closed\": false,\n" +
+                "        \"new\": {\n" +
+                "          \"type\": \"branch\",\n" +
+                "          \"name\": \"master\",\n" +
+                "          \"target\": {\n" +
+                "            \"type\": \"commit\",\n" +
+                "            \"hash\": \"d93ef85579f7aa4d88e4bbf2a64b60842687cb5c\"\n" +
+                "          }\n" +
+                "        },\n" +
+                "        \"old\": {\n" +
+                "          \"type\": \"branch\",\n" +
+                "          \"name\": \"master\",\n" +
+                "          \"target\": {\n" +
+                "            \"type\": \"commit\",\n" +
+                "            \"hash\": \"ce7f168c051581c217dd17be63384e5a3789a14f\"\n" +
+                "          }\n" +
+                "        }\n" +
                 "      }\n" +
-                "   ],\n" +
-                "   \"changesets\":{\n" +
-                "      \"size\":1,\n" +
-                "      \"limit\":100,\n" +
-                "      \"isLastPage\":true,\n" +
-                "      \"values\":[\n" +
-                "         {\n" +
-                "            \"fromCommit\":{\n" +
-                "               \"id\":\"2c847c4e9c2421d038fff26ba82bc859ae6ebe20\",\n" +
-                "               \"displayId\":\"2c847c4\"\n" +
-                "            },\n" +
-                "            \"toCommit\":{\n" +
-                "               \"id\":\"f259e9032cdeb1e28d073e8a79a1fd6f9587f233\",\n" +
-                "               \"displayId\":\"f259e90\",\n" +
-                "               \"author\":{\n" +
-                "                  \"name\":\"jhocman\",\n" +
-                "                  \"emailAddress\":\"jhocman@atlassian.com\"\n" +
-                "               },\n" +
-                "               \"authorTimestamp\":1374663446000,\n" +
-                "               \"message\":\"Updating poms ...\",\n" +
-                "               \"parents\":[\n" +
-                "                  {\n" +
-                "                     \"id\":\"2c847c4e9c2421d038fff26ba82bc859ae6ebe20\",\n" +
-                "                     \"displayId\":\"2c847c4\"\n" +
-                "                  }\n" +
-                "               ]\n" +
-                "            },\n" +
-                "            \"changes\":{\n" +
-                "               \"size\":2,\n" +
-                "               \"limit\":500,\n" +
-                "               \"isLastPage\":true,\n" +
-                "               \"values\":[\n" +
-                "                  {\n" +
-                "                     \"contentId\":\"2f259b79aa7e263f5829bb6e98096e7ec976d998\",\n" +
-                "                     \"path\":{\n" +
-                "                        \"components\":[\n" +
-                "                           \"iridium-common\",\n" +
-                "                           \"pom.xml\"\n" +
-                "                        ],\n" +
-                "                        \"parent\":\"iridium-common\",\n" +
-                "                        \"name\":\"pom.xml\",\n" +
-                "                        \"extension\":\"xml\",\n" +
-                "                        \"toString\":\"iridium-common/pom.xml\"\n" +
-                "                     },\n" +
-                "                     \"executable\":false,\n" +
-                "                     \"percentUnchanged\":-1,\n" +
-                "                     \"type\":\"MODIFY\",\n" +
-                "                     \"nodeType\":\"FILE\",\n" +
-                "                     \"srcExecutable\":false,\n" +
-                "                     \"link\":{\n" +
-                "                        \"url\":\"/projects/IR/repos/iridium-parent/commits/f259e9032cdeb1e28d073e8a79a1fd6f9587f233#iridium-common/pom.xml\",\n" +
-                "                        \"rel\":\"self\"\n" +
-                "                     }\n" +
-                "                  },\n" +
-                "                  {\n" +
-                "                     \"contentId\":\"2f259b79aa7e263f5829bb6e98096e7ec976d998\",\n" +
-                "                     \"path\":{\n" +
-                "                        \"components\":[\n" +
-                "                           \"iridium-magma\",\n" +
-                "                           \"pom.xml\"\n" +
-                "                        ],\n" +
-                "                        \"parent\":\"iridium-magma\",\n" +
-                "                        \"name\":\"pom.xml\",\n" +
-                "                        \"extension\":\"xml\",\n" +
-                "                        \"toString\":\"iridium-magma/pom.xml\"\n" +
-                "                     },\n" +
-                "                     \"executable\":false,\n" +
-                "                     \"percentUnchanged\":-1,\n" +
-                "                     \"type\":\"MODIFY\",\n" +
-                "                     \"nodeType\":\"FILE\",\n" +
-                "                     \"srcExecutable\":false,\n" +
-                "                     \"link\":{\n" +
-                "                        \"url\":\"/projects/IR/repos/iridium-parent/commits/f259e9032cdeb1e28d073e8a79a1fd6f9587f233#iridium-magma/pom.xml\",\n" +
-                "                        \"rel\":\"self\"\n" +
-                "                     }\n" +
-                "                  }\n" +
-                "               ],\n" +
-                "               \"start\":0,\n" +
-                "               \"filter\":null\n" +
-                "            },\n" +
-                // / With Atlassian Bitbucket Server v4.4.0 and Bitbucket Web Post Hooks Plugin 3.0.3, I get a different payload documented
-                "            \"links\": { \"self\":[{ \"href\": \"https://mybitbucketserver.org/projects/IR/repos/iridium-parent/commits/f259e9032cdeb1e28d073e8a79a1fd6f9587f233#iridium-magma/pom.xml\" }]}\n" +
-                //"            \"link\":{\n" +
-                //"               \"url\":\"/projects/IR/repos/iridium-parent/commits/f259e9032cdeb1e28d073e8a79a1fd6f9587f233#iridium-magma/pom.xml\",\n" +
-                //"               \"rel\":\"self\"\n" +
-                //"            }\n" +
-                // \ With Atlassian Bitbucket Server v4.4.0 and Bitbucket Web Post Hooks Plugin 3.0.3, I get a different payload than documented
-                "         }\n" +
-                "      ],\n" +
-                "      \"start\":0,\n" +
-                "      \"filter\":null\n" +
-                "   }\n" +
+                "    ]\n" +
+                "  }\n" +
                 "}");
 
             payloadProcessor.processPayload(payload, request);
 
-        verify(probe).triggerMatchingJobs("jhocman", "https://mybitbucketserver.org/scm/IR/iridium-parent", "git", payload.toString());
+        verify(probe).triggerMatchingJobs("richard.attermeyer", "https://mybitbucketserver.org/scm/BHW/hello-world", "git", payload.toString());
     }
 
 }

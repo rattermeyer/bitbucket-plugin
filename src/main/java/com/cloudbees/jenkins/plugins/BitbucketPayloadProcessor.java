@@ -384,10 +384,9 @@ https://confluence.atlassian.com/bitbucketserver/post-service-webhook-for-bitbuc
         LOGGER.log(Level.INFO, "Received commit hook notification for {0}", repo);
         LOGGER.log(Level.FINEST, "Received commit hook notification for {0}", repo.toString() + " with payload " + payload.toString());
 
-        JSONArray changesetsValues = payload.getJSONObject("changesets").getJSONArray("values");
-        JSONObject changesetLastValue = (JSONObject) changesetsValues.get(changesetsValues.size() - 1);
-        String user = changesetLastValue.getJSONObject("toCommit").getJSONObject("author").getString("name");
-        JSONObject lastSelf = (JSONObject) changesetLastValue.getJSONObject("links").getJSONArray("self").get(0);
+        JSONObject actor = payload.getJSONObject("actor");
+        String user = actor.getString("username");
+        JSONObject lastSelf = (JSONObject) payload.getJSONObject("repository").getJSONObject("links").getJSONArray("self").get(0);
         String href = lastSelf.getString("href");
         URL hrefURL = null;
         try {
